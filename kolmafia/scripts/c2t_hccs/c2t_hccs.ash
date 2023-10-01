@@ -503,7 +503,7 @@ boolean c2t_hccs_preCoil() {
 	item workshed = get_property("c2t_hccs_workshed").to_item();
 	if (workshed != $item[none] && get_workshed() == $item[none]) {
 		//sanity check
-		if ($items[cold medicine cabinet,diabolic pizza cube,model train set] contains workshed)
+		if ($items[cold medicine cabinet,diabolic pizza cube,model train set,Asdon Martin keyfob] contains workshed)
 			use(workshed);
 	}
 
@@ -536,7 +536,7 @@ boolean c2t_hccs_preCoil() {
 
 	//probably should make a property handler, because this looks like it may get unwieldly
 	if (get_property('_clanFortuneConsultUses').to_int() < 3) {
-		c2t_hccs_joinClan(get_property("c2t_hccs_joinClan"));
+		c2t_hccs_joinClan("90485");
 
 		string fortunes = get_property("c2t_hccs_clanFortunes");
 
@@ -545,6 +545,8 @@ boolean c2t_hccs_preCoil() {
 				cli_execute(`fortune {fortunes};wait 5`);
 		else
 			c2t_hccs_printWarn(`{fortunes} is not online; skipping fortunes`);
+            
+        c2t_hccs_joinClan(get_property('c2t_hccs_joinClan').to_int().to_string());
 	}
 
 	//fax
@@ -1088,7 +1090,7 @@ boolean c2t_hccs_lovePotion(boolean useit,boolean dumpit) {
 }
 
 boolean c2t_hccs_preItem() {
-	string maxstr = `item,2 booze drop,-equip {c2t_pilcrow($item[broken champagne bottle])},-equip {c2t_pilcrow($item[surprisingly capacious handbag])},-equip {c2t_pilcrow($item[red-hot sausage fork])},switch left-hand man`;
+	string maxstr = `item,2 booze drop,-equip {c2t_pilcrow($item[broken champagne bottle])},-equip {c2t_pilcrow($item[surprisingly capacious handbag])},-equip {c2t_pilcrow($item[red-hot sausage fork])},+switch Disembodied Hand, +switch Left-Hand Man`;
 
 	//shrug off an AT buff
 	cli_execute("shrug ur-kel");
@@ -1230,7 +1232,7 @@ boolean c2t_hccs_preItem() {
 }
 
 boolean c2t_hccs_preHotRes() {
-	string maxstr = "100hot res,familiar weight,switch exotic parrot,switch mu,switch left-hand man";
+	string maxstr = "100hot res,familiar weight,switch exotic parrot,switch mu,+switch Disembodied Hand, +switch Left-Hand Man";
 
 	//cloake buff and fireproof foam suit for +32 hot res total, but also weapon and spell test buffs
 	//weapon/spell buff should last 15 turns, which is enough to get through hot(1), NC(9), and weapon(1) tests to also affect the spell test
@@ -1652,13 +1654,13 @@ boolean c2t_hccs_preWeapon() {
 	//c2t_hccs_briefcase("weapon");//this is the default, but just in case
 
 	//pull stick-knife if able to equip
-	if (my_basestat($stat[muscle]) >= 150)
+	if (my_basestat($stat[muscle]) >= 150 || have_familiar( $familiar[disembodied hand] ))
 		c2t_hccs_pull($item[stick-knife of loathing]);
 
 	//unbreakable umbrella
 	c2t_hccs_unbreakableUmbrella("weapon");
 	
-	maximize('weapon damage,switch left-hand man',false);
+	maximize('weapon damage,+switch Disembodied Hand, +switch Left-Hand Man',false);
 	if (c2t_hccs_thresholdMet(TEST_WEAPON))
 		return true;
 
@@ -1802,7 +1804,7 @@ boolean c2t_hccs_preSpell() {
 	//unbreakable umbrella
 	c2t_hccs_unbreakableUmbrella("spell");
 
-	maximize('spell damage,switch left-hand man',false);
+	maximize('spell damage,+switch Disembodied Hand, +switch Left-Hand Man',false);
 
 	return c2t_hccs_thresholdMet(TEST_SPELL);
 }
@@ -1814,7 +1816,7 @@ boolean c2t_hccs_preHp() {
 	if (c2t_hccs_thresholdMet(TEST_HP))
 		return true;
 
-	maximize('hp,switch left-hand man',false);
+	maximize('hp,+switch Disembodied Hand, +switch Left-Hand Man',false);
 	if (c2t_hccs_thresholdMet(TEST_HP))
 		return true;
 
@@ -1850,7 +1852,7 @@ boolean c2t_hccs_preMus() {
 	if (c2t_hccs_thresholdMet(TEST_MUS))
 		return true;
 
-	maximize('mus,switch left-hand man',false);
+	maximize('mus,+switch Disembodied Hand, +switch Left-Hand Man',false);
 	if (c2t_hccs_thresholdMet(TEST_MUS))
 		return true;
 
@@ -1878,7 +1880,7 @@ boolean c2t_hccs_preMys() {
 	if (c2t_hccs_thresholdMet(TEST_MYS))
 		return true;
 
-	maximize('mys,switch left-hand man',false);
+	maximize('mys,+switch Disembodied Hand, +switch Left-Hand Man',false);
 	if (c2t_hccs_thresholdMet(TEST_MYS))
 		return true;
 
@@ -1906,7 +1908,7 @@ boolean c2t_hccs_preMox() {
 	if (c2t_hccs_thresholdMet(TEST_MOX))
 		return true;
 
-	maximize('mox,switch left-hand man',false);
+	maximize('mox,+switch Disembodied Hand, +switch Left-Hand Man',false);
 	if (c2t_hccs_thresholdMet(TEST_MOX))
 		return true;
 
